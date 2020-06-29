@@ -21,14 +21,15 @@ tic
     end
     arry = log(arry);
     x = [1:size(arry)];
-    x = x(floor(size(arry,1)/2):size(arry,1));
-    arry = arry(floor(size(arry,1)/2):size(arry,1));
+    x = x(floor(size(arry,1)/4):size(arry,1));
+    arry = arry(floor(size(arry,1)/4):size(arry,1));
     x = x';
     x = log(x);
     f = polyfit(x,arry,1);
     %slope
     slope = f(1); v(1,2) = slope;
     polyfit_vals = polyval(f,x);
+    figure(1)
     plot(x,arry,'o-',x,polyfit_vals);
     title("Dimension of regular tree");
     xlabel("log(n)");
@@ -41,4 +42,3 @@ tic
     %call perturbation function here, return [M,avg_p]
     %[x,d,s] = perturb(A); v(1,4) = d; v(1,5) = s;
 end
-
