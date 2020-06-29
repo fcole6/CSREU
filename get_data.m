@@ -29,6 +29,6 @@ function [v,x] = get_data(A)
     error = abs(polyfit_vals - arry);
     avg_e = mean(error); v(1,3) = avg_e;
     %call perturbation function here, return [M,avg_p]
-    [x,d,s] = perturb(A); v(1,4) = d; v(1,5) = s;
+    %[x,d,s] = perturb(A); v(1,4) = d; v(1,5) = s;
 end
 

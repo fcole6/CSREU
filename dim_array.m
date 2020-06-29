@@ -51,8 +51,8 @@ g = (1:length(return_array))';
 return_array = log(return_array);
 g = log(g);
 m = length(g);
-g = g(25:end);
-return_array = return_array(25:end);
+g = g(10:end);
+return_array = return_array(10:end);
 %for i = 1:m
     %if floor(g(i)/log(4)) == g(i)/log(4)
         %g2 = [g2; g(i)];

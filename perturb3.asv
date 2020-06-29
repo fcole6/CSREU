@@ -17,7 +17,7 @@ for j = 2:M
     %lam(j) = eigs(L,1,lam(j-1), 'Tolerance', 1e-6, 'SubspaceDimension',50); 
 end
 
-if isnan(lam(1))
+if isnan(lam(1)) == 1
     lam = lam(2:end);
     omeg = omeg(2:end);
 end
