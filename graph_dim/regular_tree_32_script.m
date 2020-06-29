@@ -1,12 +1,14 @@
 addpath('C:/Users/Franck/iCloudDrive/reu_2020/code/CSREU/pert_v_eval');
 addpath('C:/Users/Franck/iCloudDrive/reu_2020/code/CSREU/graph_structs');
     N = 10000;
-    A = twodlap(N);
+    A = regular_tree(N,3,2);
     N = size(A,1);
     G = graph(A);
     L = -laplacian(G);
     
-    node = round((N/2)+floor(sqrt(N)/2));
+    v = get_data(A);
+    
+    node = 10000;
     
     omeg = (.1: .02: .6)';
     m = length(omeg);
@@ -34,7 +36,8 @@ addpath('C:/Users/Franck/iCloudDrive/reu_2020/code/CSREU/graph_structs');
     
     p(1)
     
+    figure(2)
     plot(log_omeg,log_lam,log_omeg,y);
-    title("Largest Eigenvalue v. Perturbation");
+    title("Largest Eigenvalue v. Perturbation, Regular Tree (3,2)");
     xlabel("log(omega)");
     ylabel("log(lambda)");
