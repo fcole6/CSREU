@@ -2,9 +2,9 @@ function [lam,omeg,loglam,logomeg] = perturb4(A,ind)
 G = graph(A);
 L = -laplacian(G);
 
-omeg(1,1) = 3/4;
+omeg(1,1) = .5;
 i = 2;
-while(omeg(1,i-1) > 1/4)
+while(omeg(1,i-1) > 0.05)
     omeg(1,i) = omeg(1,i-1)*.9;
     i = i + 1;
 end
