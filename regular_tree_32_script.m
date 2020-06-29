@@ -7,7 +7,7 @@
     v = get_data(A);
     v(2)
     
-    node = 10;
+    node = 1;
     
     [lam,omeg,loglam,logomeg] = perturb3(A,node);
         
