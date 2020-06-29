@@ -35,6 +35,6 @@ addpath('C:/Users/Franck/iCloudDrive/reu_2020/code/CSREU/graph_structs');
     p(1)
     
     plot(log_omeg,log_lam,log_omeg,y);
-    title("Largest Eigenvalue v. Perturbation");
+    title("Largest Eigenvalue v. Perturbation, 2-D Lattice");
     xlabel("log(omega)");
     ylabel("log(lambda)");
