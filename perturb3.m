@@ -2,7 +2,7 @@ function [lam,omeg,loglam,logomeg] = perturb3(A,ind)
 G = graph(A);
 L = -laplacian(G);
 
-omeg = (0.01: .005: .4)';
+omeg = (0.01: .01: .4)';
 M = length(omeg);
 lam = zeros(M,1);
 k = L(ind,ind);
