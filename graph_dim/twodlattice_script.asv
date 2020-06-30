@@ -8,7 +8,10 @@ addpath('C:/Users/Franck/iCloudDrive/reu_2020/code/CSREU');
     
     node = round((N/2)+floor(sqrt(N)/2));
     
-    [lam,omeg,log_lam,log_omeg] = perturb4(A,node);
+    %[lam,omeg,log_lam,log_omeg] = perturb4(A,node);
+    
+    logomeg = [1,2];
+    loglam = [1,3];
 
     p = polyfit(log_omeg,log_lam,1);
     y = polyval(p,log_omeg);
@@ -16,7 +19,7 @@ addpath('C:/Users/Franck/iCloudDrive/reu_2020/code/CSREU');
     p(1)
     
     figure(2)
-    plot(log_omeg,log_lam,':k*',log_omeg,y,'m');
+    plot(log_omeg,log_lam,'-.k*',log_omeg,y,'m');
     title("Largest Eigenvalue v. Perturbation, 2-D Lattice");
     xlabel("log(omega)");
     ylabel("log(lambda)");
