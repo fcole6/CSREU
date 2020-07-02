@@ -3,7 +3,7 @@ G = graph(A);
 L = -laplacian(G);
 N = size(A,1);
 
-omeg = [5]; i=2;
+omeg = [10]; i=2;
 
 while omeg(i-1) > .01
     omeg = [omeg; omeg(i-1)*.8];
@@ -31,25 +31,6 @@ end
 
 loglam = log(lam);
 logomeg = log(omeg);
-
-j = 0;
-k = 0;
-
-for i = 1:size(logomeg,2)
-    if logomeg(i) < -.2 && k == 0
-        k = i;
-        break;
-    end
-    if logomeg(i) < .27 && j == 0
-        j = i;
-    end
-end
-
-k = k + 1;
-j = j + 1;
-
-logomeg = logomeg(j:k);
-loglam = loglam(j:k);
 
 toc
 end
