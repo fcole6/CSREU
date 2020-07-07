@@ -1,6 +1,6 @@
 function [N,lam] = perturb5(rel_error,max_iter,m,omeg)
 
-%add 5 to n every iteration
+%add m to n every iteration
 
 iter = 1;
 
@@ -13,11 +13,16 @@ n_2 = ceil(n^2/2);
 ex=ones(n,1);
 adjx=spdiags([ex, -2*ex, ex],-1:1,n,n);
 lap=kron(speye(n), adjx) + kron(adjx, speye(n));
+for i=1:n
+    lap(i,i) = lap(i,i) + 1;
+    lap(n^2+1-i,n^2+1-i) = lap(n^2+1-i,n^2+1-i) + 1;
+    lap(n*(i-1)+1,n*(i-1)+1) = lap(n*(i-1)+1,n*(i-1)+1) + 1;
+    lap(n*i,n*i) = lap(n*i,n*i) + 1;
+end
 
 lap(n_2,n_2) = lap(n_2,n_2) + omeg;
-    
-[V,D] = eigs(lap,1,'largestreal','StartVector',ones(n^2,1));
 
+[V,D] = eigs(lap,1,'largestreal');
 lam = [D];
 
 while true
@@ -41,27 +46,31 @@ while true
     %center of graph
     n_2 = ceil(n^2/2);
     
-    if (mod(n,50) == 1)
-    fprintf('\n n = %d', n);
-    fprintf('\n %f', lam(end));
-    end
-    
     ex=ones(n,1);
     adjx=spdiags([ex, -2*ex, ex],-1:1,n,n);
     lap=kron(speye(n), adjx) + kron(adjx, speye(n));
+    for i=1:n
+    lap(i,i) = lap(i,i) + 1;
+    lap(n^2+1-i,n^2+1-i) = lap(n^2+1-i,n^2+1-i) + 1;
+    lap(n*(i-1)+1,n*(i-1)+1) = lap(n*(i-1)+1,n*(i-1)+1) + 1;
+    lap(n*i,n*i) = lap(n*i,n*i) + 1;
+    end
     
     lap(n_2,n_2) = lap(n_2,n_2) + omeg;
     
+    try
     [V,D] = eigs(lap,1,lam(end),'StartVector',U);
+    catch ME
+        fprintf('terminated. error in n = %d ', n);
+        fprintf('for omega value %f', omeg);
+        break;
+    end
+    
     lam = [lam, D];
     
     %put while loop condition here so that goes through at least once
     if abs((lam(end) - lam(end-1))/lam(end)) < rel_error
         break
-    end
-    
-    if mod(iter,30) == 0
-        m = m*2;
     end
     
     if iter > max_iter

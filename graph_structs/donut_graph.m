@@ -12,5 +12,5 @@ function A = donut_graph(n)
     A_1 = spdiags([e e e], -1:1, m,m) - eye(m);
     A_1(1,m) = 1; A_1(m,1) = 1;
     A_2 = spdiags([e], 0, m,m);
-    A = [A_1, A_2; A_2, A_1]
+    A = [A_1, A_2; A_2, A_1];
 end

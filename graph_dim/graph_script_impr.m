@@ -2,8 +2,8 @@
 %dim: 10, 100, 300, 500, 1000, 3000, 5000
 
 %mkdir('C:/Users/Franck/iCloudDrive/reu_2020/code');
-addpath('C:/Users/Franck/iCloudDrive/reu_2020/code/pert_v_eval');
-addpath('C:/Users/Franck/iCloudDrive/reu_2020/code/graph_structs');
+addpath('C:/Users/Franck/iCloudDrive/reu_2020/code/CSREU/pert_v_eval');
+addpath('C:/Users/Franck/iCloudDrive/reu_2020/code/CSREU/graph_structs');
 
 x = [100, 300, 500, 1000, 3000, 5000, 7000, 10000];
 
