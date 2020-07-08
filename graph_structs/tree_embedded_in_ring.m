@@ -1,5 +1,5 @@
 function A = tree_embedded_in_ring(n,m)
-    A = zeros(n,n);
+    A = sparse(n,n);
     b = m;  c = m;
 
     A(1,2) = 1; A(1,n) = 1;
@@ -14,7 +14,7 @@ function A = tree_embedded_in_ring(n,m)
             for i=1:size(curr_row,2)
                 A(curr_row(1,i),curr_row(1,i)+1) = 1;
                 A(curr_row(1,i),curr_row(1,i)+size_of_subtree) = 1;
-            new_row = [new_row, curr_row(1,i)+1,curr_row(1,i)+size_of_subtree]
+            new_row = [new_row, curr_row(1,i)+1,curr_row(1,i)+size_of_subtree];
                 dist_to_n = curr_row(1,i) - 2;
                 A(n - dist_to_n, n - dist_to_n - 1) = 1;
                 A(n - dist_to_n, n - dist_to_n -...
