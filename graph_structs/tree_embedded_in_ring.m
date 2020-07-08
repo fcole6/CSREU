@@ -1,64 +1,49 @@
 function A = tree_embedded_in_ring(n,m)
-    A = sparse(n,n);
-    a = 2; %num of nodes in curr row
-    b = m - 1; % a - (num of times that row size has been added)
-    c = m;
+    A = zeros(n,n);
+    b = m;  c = m;
+
+    A(1,2) = 1; A(1,n) = 1;
+    curr_row = [2];
+    size_of_subtree = floor(n/2);
     
-    last_node = 1; %used to make sure no out of bounds errors
-    first_node = 1;
-    
-    while(b > 1)
-        A(first_node,first_node + 1) = 1;
-        first_node = first_node+1;
-        last_node = last_node + 1;
-        b = b - 1;
-    end
-    for i=1:split
-        A(first_node,last_node + 1) = 1;
-        last_node = last_node + 1;
-    end
-    first_node = first_node + 1;
-    c = c*m;
-    b = c;
-    
-    while (last_node < n)
+    while (curr_row(end) < n/2 + 1)
         if (b == 1) %split
-            start_node = first_node; %start w first node of curr row
-            end_node = first_node + a; %start w first node of next row
-            for i=1:a
-                for j=1:split
-                    if (end_node > n)
-                        break;
-                    end
-                    A(start_node,end_node) = 1; %connect indices end_node
-                    end_node = end_node + 1; %...thru end_node + split - 1
-                end
-                start_node = start_node + 1; %start again w next start node
+            size_of_subtree = ceil(size_of_subtree/2);
+            new_row = [];
+            %connect nodes in row to the 2 approp nodes
+            for i=1:size(curr_row,2)
+                A(curr_row(1,i),curr_row(1,i)+1) = 1;
+                A(curr_row(1,i),curr_row(1,i)+size_of_subtree) = 1;
+            new_row = [new_row, curr_row(1,i)+1,curr_row(1,i)+size_of_subtree]
+                dist_to_n = curr_row(1,i) - 2;
+                A(n - dist_to_n, n - dist_to_n - 1) = 1;
+                A(n - dist_to_n, n - dist_to_n -...
+                    size_of_subtree) = 1;
             end
-            first_node = first_node + a; %update variables
-            a = a*split;
-            last_node = end_node - 1;
+            %rewrite the curr set as these two nodes
+            curr_row = new_row;
             c = c*m;
             b = c;
         else %dont split
-            start_node = first_node;
-            end_node = start_node + a;
-            for i=1:a
-                if (end_node > n)
-                    break;
-                end
-                A(start_node,end_node) = 1;
-                start_node = start_node + 1;
-                end_node = end_node + 1;
+            %connect nodes in row to the next row
+            new_row = [];
+            for i=1:size(curr_row,2)
+                A(curr_row(i),curr_row(i)+1) = 1;
+                new_row = [new_row, curr_row(i)+1];
+                dist_to_n = curr_row(i) - 2;
+                A(n - dist_to_n, n - dist_to_n - 1) = 1;
             end
+            %update currrow variable
+            curr_row = new_row;
+            size_of_subtree = size_of_subtree -1;
             b = b - 1;
-            last_node = end_node - 1;
-            first_node = first_node + a;
         end
     end
     A = A + A';
-    g = graph(A);
-    plot(g);
-end
-    
+    for i=1:n-1
+        if A(i,i+1) == 0
+            A(i,i+1) = 1;
+            A(i+1,i) = 1;
+        end
+    end
 end
