@@ -26,6 +26,6 @@ for source=1:N
 end
 
 h = graph(s,t);
-h = adjacency(h);
+plot(h,'Layout','layered','Direction','down','Sources',[25]);
 
 end
