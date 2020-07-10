@@ -1,9 +1,10 @@
-function plot_concentric(A,sn_ID)
+function B = plot_concentric(A,sn_ID)
 
 hold on
 
 n = size(A,1);
 B = sparse(n,n);
+B(1,1) = 1;
 
 % sn_ID is the start node ID
 G = graph(A);
@@ -14,19 +15,13 @@ queue = N;
 %[no_neighbors, ~] = size(N);
 %return_array = [no_neighbors];
 visited = [visited; N];
+for i=1:size(N,1)
+    B(2,i) = N(i);
+end
+
+j = 3;
 
 while size(N,1) ~= 0 && size(N,2) ~= 0
-
-for i=1:size(N,1)-1
-    B(N(i),N(i+1)) = 1;
-end
-B(N(end,1),N(1,1)) = 1;
-
-B = B + B';
-h = graph(B);
-plot(h);
-pause(0.5);
-B = sparse(n,n);
     
 N = [];
 
@@ -58,6 +53,11 @@ N = [];
 	end
 
 	queue = N;
+    for i=1:size(N,1)
+        B(j,i) = N(i);
+    end
+    
+    j = j+1;
     
 end
 
