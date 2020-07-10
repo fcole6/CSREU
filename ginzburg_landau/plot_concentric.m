@@ -1,10 +1,10 @@
-function B = plot_concentric(A,sn_ID)
+function B = plot_concentric(A,sn_ID,max_d)
 
 hold on
 
 n = size(A,1);
-B = sparse(n,n);
-B(1,1) = 1;
+B = sparse(max_d+1,n);
+B(1,1) = sn_ID;
 
 % sn_ID is the start node ID
 G = graph(A);
