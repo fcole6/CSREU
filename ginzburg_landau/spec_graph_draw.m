@@ -70,8 +70,7 @@ M = speye(N,N) - dt*Del;
 
 for j = 1:(tf/dt)    
     
-    g_1 = g(u);
-    un = M\(u+dt*g_1);     % semi-implicit Euler
+    un = M\(u+(dt*g(u)));     % semi-implicit Euler
     u = un;
     re_u = real(u);
     color_indices = ceil(re_u*100 + 150);
