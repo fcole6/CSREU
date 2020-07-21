@@ -1,0 +1,19 @@
+N = [43+8, 259+16, 1555+32, 9331+64, 55987+128, 335923+256];
+
+size_n = size(N,2);
+
+avg_short_path = zeros(1,size_n);
+
+%S = zeros(1,size_n);
+%T = zeros(1,size_n);
+%R = zeros(1,size_n);
+
+for i=1:size_n
+    [A,~,~,~] = tree_embedded_in_ring(N(1,i),3);
+    disp(N(1,i));
+    %S(1,i) = s;
+    %T(1,i) = t;
+    %R(1,i) = r;
+    short_path = 
+end
+

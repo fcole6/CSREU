@@ -3,10 +3,10 @@ G = graph(A);
 L = -laplacian(G);
 N = size(A,1);
 
-omeg = [10]; i=2;
+omeg = [20]; i=2;
 
-while omeg(i-1) > .01
-    omeg = [omeg; omeg(i-1)*.8];
+while omeg(i-1) > .0000001
+    omeg = [omeg; omeg(i-1)*.5];
     i = i+1;
 end
 m = length(omeg);

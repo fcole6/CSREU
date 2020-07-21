@@ -7,18 +7,26 @@ iter = 1;
 n = 51;
 N = [n];
 %center of graph
-n_2 = ceil(n^2/2);
+n_2 = ceil(n/2);
 
 %make lap the laplacian
-ex=ones(n,1);
-adjx=spdiags([ex, -2*ex, ex],-1:1,n,n);
-lap=kron(speye(n), adjx) + kron(adjx, speye(n));
-for i=1:n
-    lap(i,i) = lap(i,i) + 1;
-    lap(n^2+1-i,n^2+1-i) = lap(n^2+1-i,n^2+1-i) + 1;
-    lap(n*(i-1)+1,n*(i-1)+1) = lap(n*(i-1)+1,n*(i-1)+1) + 1;
-    lap(n*i,n*i) = lap(n*i,n*i) + 1;
-end
+%ex=ones(n,1);
+%adjx=spdiags([ex, ex],-1:2:1,n,n);
+lap=spdiags([ex, -2*ex, ex],-1:1,n,n); lap(1,n) = 1; lap(n,1) = 1;
+%lap=kron(speye(n), adjx) + kron(adjx, speye(n));
+%for i=1:n
+%    lap(i,i) = lap(i,i) + 1;
+%    lap(n^2+1-i,n^2+1-i) = lap(n^2+1-i,n^2+1-i) + 1;
+%    lap(n*(i-1)+1,n*(i-1)+1) = lap(n*(i-1)+1,n*(i-1)+1) + 1;
+%    lap(n*i,n*i) = lap(n*i,n*i) + 1;
+%end
+
+figure(1)
+
+adj = lap - diag(diag(lap));
+plot(graph(adj))
+
+figure(2)
 
 lap(n_2,n_2) = lap(n_2,n_2) + omeg;
 
@@ -47,14 +55,15 @@ while true
     n_2 = ceil(n^2/2);
     
     ex=ones(n,1);
-    adjx=spdiags([ex, -2*ex, ex],-1:1,n,n);
-    lap=kron(speye(n), adjx) + kron(adjx, speye(n));
-    for i=1:n
-    lap(i,i) = lap(i,i) + 1;
-    lap(n^2+1-i,n^2+1-i) = lap(n^2+1-i,n^2+1-i) + 1;
-    lap(n*(i-1)+1,n*(i-1)+1) = lap(n*(i-1)+1,n*(i-1)+1) + 1;
-    lap(n*i,n*i) = lap(n*i,n*i) + 1;
-    end
+    lap=spdiags([ex, -2*ex, ex],-1:1,n,n); lap(1,n) = 1;
+        lap(n,1) = 1;
+    %lap=kron(speye(n), adjx) + kron(adjx, speye(n));
+    %for i=1:n
+    %lap(i,i) = lap(i,i) + 1;
+    %lap(n^2+1-i,n^2+1-i) = lap(n^2+1-i,n^2+1-i) + 1;
+    %lap(n*(i-1)+1,n*(i-1)+1) = lap(n*(i-1)+1,n*(i-1)+1) + 1;
+    %lap(n*i,n*i) = lap(n*i,n*i) + 1;
+    %end
     
     lap(n_2,n_2) = lap(n_2,n_2) + omeg;
     

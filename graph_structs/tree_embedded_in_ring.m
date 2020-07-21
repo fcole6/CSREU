@@ -1,12 +1,13 @@
-function [A,tree_edges,extra_ring_edges] = tree_embedded_in_ring(n,m)
+function [A,shared_edges,tree_edges,ring_edges] = tree_embedded_in_ring(n,m)
     A = sparse(n,n);
     b = m;  c = m;
     
-    extra_ring_edges = 0;
+    ring_edges = 0;
     tree_edges = 0;
+    shared_edges = 0;
 
     A(1,2) = 1; A(1,n) = 1;
-    tree_edges = tree_edges + 2;
+    shared_edges = shared_edges + 2;
     curr_row = [2];
     size_of_subtree = floor(n/2);
     
@@ -23,7 +24,8 @@ function [A,tree_edges,extra_ring_edges] = tree_embedded_in_ring(n,m)
                 A(n - dist_to_n, n - dist_to_n - 1) = 1;
                 A(n - dist_to_n, n - dist_to_n -...
                     size_of_subtree) = 1;
-                tree_edges = tree_edges + 4;
+                shared_edges = shared_edges + 2;
+                tree_edges = tree_edges + 2;
             end
             %rewrite the curr set as these two nodes
             curr_row = new_row;
@@ -37,7 +39,7 @@ function [A,tree_edges,extra_ring_edges] = tree_embedded_in_ring(n,m)
                 new_row = [new_row, curr_row(i)+1];
                 dist_to_n = curr_row(i) - 2;
                 A(n - dist_to_n, n - dist_to_n - 1) = 1;
-                tree_edges = tree_edges + 2;
+                shared_edges = shared_edges + 2;
             end
             %update currrow variable
             curr_row = new_row;
@@ -49,7 +51,7 @@ function [A,tree_edges,extra_ring_edges] = tree_embedded_in_ring(n,m)
     for i=1:n-1
         if A(i,i+1) ~= 1
             A(i,i+1) = 1;
-            extra_ring_edges = extra_ring_edges + 1;
+            ring_edges = ring_edges + 1;
             A(i+1,i) = 1;
         end
     end

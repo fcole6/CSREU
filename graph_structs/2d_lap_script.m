@@ -1,6 +1,4 @@
-%N=500;
-%A = donut_graph(N);
-A = twodlap(10);
+[~,A] = twodlap(10);
 G = graph(A);
 figure(1)
 plot(G);
