@@ -1,4 +1,4 @@
-function [return_array,p,error] = dim_array(G,sn_ID)
+function [return_array] = dim_array(G,sn_ID)
 
 % sn_ID is the start node ID
 
@@ -8,7 +8,6 @@ N = neighbors(G,sn_ID);
 queue = N;
 [no_neighbors, ~] = size(N);
 return_array = [no_neighbors];
-% no_neighbors = 0;
 visited = [visited; N];
 counter = 0;
 
@@ -44,15 +43,11 @@ N = [];     %% resets N from the previoius step
 	end
 
 	queue = N;      %% put just visited nodes in queue, so we can repeat the process starting from them
-	[no_neighbors, ~] = size(counter);
-    % [no_neighbors, ~] = size(N);        %% count the number of just visited nodes
+	[no_neighbors, ~] = size(counter);       %% count the number of just visited nodes
 	return_array = [return_array; counter];        %% next entry in the returned vector is the number of nodes visited during previous iteration
 	no_neighbors = 0;       %% reset the count, reset the while loop
 
 end
-g = (1:length(return_array))';
-p = polyfit(log(g),log(return_array),1);
-y = polyval(p,log(g));
-err = abs(y-log(return_array));
-error=mean(err);
+
+
 end

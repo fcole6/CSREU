@@ -23,7 +23,7 @@ for i=1:size_n
             total = total + 1;
         end
     end
-    avg_short_path(1,i) = sum/total;
+    avg_short_path(1,i) = sum/total
     clear sum
     clear total
     clear short_path
