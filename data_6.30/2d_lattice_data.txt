@@ -1,0 +1,31 @@
+2-D Lattice (center node perturbed)
+
+n = 250000
+omega = -0.1520:0.2943
+slope = 10.3687
+constant = -8.9590
+
+n = 350000
+omega = -0.1520:0.2943
+slope = 10.7471
+constant = -9.0425
+
+n = 400000
+omega = -0.1520:0.2943
+slope = 10.8799
+constant = -9.0718
+
+n = 450000
+omega = -0.8214:-0.3751
+slope = 9.9729
+constant = -3.5249
+
+n = 500000
+omega = -0.8214:-0.3751
+slope = 10.0920
+constant = -3.4720
+
+n = 700000
+omega = -0.8214:-0.3751
+slope = 10.4470
+constant = -3.3136
