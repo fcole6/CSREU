@@ -5,12 +5,8 @@ function COpen = clust_coeff( varargin )
 % arguments: 
 %   A (nxn) - adjacency matrix of a graph G
 %
-%   L (scalar) - characteristic path length
-%   EGlob (scalar) - global efficiency
 %   CClosed (scalar) - clustering coefficient (closed neighborhood)
-%   ELocClosed (scalar) - local efficiency (closed neighborhood)
 %   COpen (scalar) - clustering coefficient (open neighborhood)
-%   ELocOpen (scalar) - local efficiency (open neighborhood)
 %
 
 % author: Nathan D. Cahill
