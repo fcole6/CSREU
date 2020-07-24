@@ -9,7 +9,7 @@ function eigenfunc_coloring(A)
     %omega_vals = [0.25,0.5,1,2,4];
     
     for j=1:20
-    
+    figure(j)
     %omega = omega_vals(j);
     A(n_2,n_2) = A(n_2,n_2) + 0.25;
     [eig,~] = eigs(A,1,'largestreal');
