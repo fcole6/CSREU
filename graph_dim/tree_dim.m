@@ -1,76 +1,78 @@
-addpath('C:/Users/Franck/iCloudDrive/reu_2020/code/CSREU/graph_structs');
-
-A = tree_embedded_in_ring(350549,2);
-
-d = get_tree_ring_data(A);
+%sample tree
+A = tree_embedded_in_ring(101,2);
+get_tree_ring_data(A);
 
 %----------------------------------------------
 
-function v = get_tree_ring_data(A)
+%calls the dimension coloring of the graph and gets dim data
+%makes dimension plot
+
+function get_tree_ring_data(A)
 tic
     %input adjacency matrix A
     n = size(A,1);
-    %output with data we wish to record
-    v = zeros(1,5);
-    %dimension
-    v(1,1) = n;
+    %get dimension
     arry = calculate_tree_ring_dim(A);
     arry = log(arry);
-    x = [2:size(arry)-1];
+    x = 1:size(arry,1);
     x = log(x);
-    x_0 = find(x>5.945,1);
-    x = x(1:x_0);
-    arry = arry(2:size(x,2)+1);
-    x = x';
-    f = polyfit(x,arry,1);
-    %slope
-    slope = f(1); v(1,2) = slope;
-    polyfit_vals = polyval(f,x);
     figure(2)
-    plot(x,arry,'o-',x,polyfit_vals);
+    plot(x,arry,'o-');
     title("Dimension of regular tree");
     xlabel("log(n)");
     ylabel("log(V)");
-    v(2)
-    %error
     toc
-    error = abs(polyfit_vals - arry);
-    avg_e = mean(error); v(1,3) = avg_e;
-    %call perturbation function here, return [M,avg_p]
-    %[x,d,s] = perturb(A); v(1,4) = d; v(1,5) = s;
 end
 
 %----------------------------------------------
 
-function return_array = calculate_tree_ring_dim(A)
-G = graph(A);
-%figure(1)
-%h = plot(G,'Layout','circle');
-%c = gray(6);
+%makes dimension coloring while calculating dimension
+%very similar to dim_array code with this extra functionality
+%------see dim_array code to see comments on how code computes dimension
+%function returns the dimension data to use in previous function
 
+function return_array = calculate_tree_ring_dim(A)
+
+%makes graph object
+G = graph(A);
+
+figure(1)
+h = plot(G,'Layout','circle');
+%sets the color scheme of the coloring, can modify
+%for a rainbow coloring, try (c=hsv(no_colors))
+%can update no_colors as desired, the rest of code should work fine
+no_colors = 6;
+c = gray(no_colors);
+
+%starting node id; in the case of tree rings, the root has ID 1
 sn_ID = 1;
     
 visited = [sn_ID];
 N = neighbors(G,sn_ID);
 
-%c_j = c(1,:);
-%highlight(h,sn_ID,'NodeColor',c_j);
+%gets the RGB values for the first color in the scheme
+c_j = c(1,:);
+%gives that color to starting node in the coloring
+highlight(h,sn_ID,'NodeColor',c_j);
 
-%pause(2);
+pause(0.5);
 
 queue = N;
 [no_neighbors, ~] = size(N);
 return_array = [no_neighbors];
 visited = [visited; N];
 
-%c_j = c(2,:);
-%for i=1:no_neighbors
-%highlight(h,N(i),'NodeColor',c_j);
-%end
+%gets the RGB values for the first color in the scheme
+c_j = c(2,:);
+%gives that color to all neighbors of starting node
+for i=1:no_neighbors
+highlight(h,N(i),'NodeColor',c_j);
+end
 
-%pause(2);
+pause(0.5);
 
-%j = 3;
+%keep track of the color we want to access in the scheme
+j = 3;
 
 while size(N,1) ~= 0 && size(N,2) ~= 0
 
@@ -89,14 +91,18 @@ N = [];
     
     not_visited_N = [];
 
+    %get jth color in the scheme "c"
+    c_j = c(j,:);
+    
+        %for nodes attained at this level
+        %check that they aren't visited
+        %if not, color those nodes the jth color
 		for i=1:no_new_neighbors
 		temp = new_neighbors(i,1);
-
-			if ismember(temp,visited) == 0
+            if ismember(temp,visited) == 0
                 not_visited_N = [not_visited_N; temp];
-                %c_j = c(j,:);
-                %highlight(h,temp,'NodeColor',c_j);
-			end
+                highlight(h,temp,'NodeColor',c_j);
+            end
 
         end
         
@@ -105,13 +111,16 @@ N = [];
 
     end
     
-    %pause(2);
+    pause(0.5);
     
-    %j = j+1;
+    %update j
+    j = j+1;
     
-    %if j == 7
-        %j = 1;
-    %end
+    %if we've exceeded the number of colors in the scheme,
+    %we wish to start back at color 1
+    if j == no_colors + 1
+        j = 1;
+    end
 
 	queue = N;
 	[temp, ~] = size(N);

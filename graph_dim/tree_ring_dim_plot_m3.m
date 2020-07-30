@@ -1,9 +1,10 @@
-N = 336179;
+N = 336179; %code requires that size of graph forms a full tree with
+%final level directly after a split
 
 A = tree_embedded_in_ring(N,3);
-G = graph(A);
+G = graph(A);   %makes it a graph object
 
-tree_ring_dim = dim_array(G,1);
+tree_ring_dim = dim_array(G,1); %calculate nodes reached
 
 N_vals = 1:size(dim_array,1);
 log_N = log(N_vals);
