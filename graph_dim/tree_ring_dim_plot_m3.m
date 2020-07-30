@@ -1,5 +1,6 @@
 N = 336179; %code requires that size of graph forms a full tree with
 %final level directly after a split
+%for m=3, this value of N works
 
 A = tree_embedded_in_ring(N,3);
 G = graph(A);   %makes it a graph object

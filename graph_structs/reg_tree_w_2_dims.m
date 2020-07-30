@@ -1,27 +1,28 @@
-function A = regular_tree(n,m,s)
+function A = reg_tree_w_2_dims(n_tot,n_change,m_1,s_1,m_2,s_2)
 
-    %n number of nodes
-    %m is the base for powers we split on
-    %s is the number of nodes we split into at each split
-    %-----ex. for a std. binary tree, m = 1, s = 2
+%n_total is the total size of the tree
+%n_change is the node we wish to change dimensions at
+%-----dimension does not actually change until the end of the
+%-----level n_change is on is reached
+%m_1 and s_1 are the first m,s values as in std. regular tree code
+%m_2 and s_2 are the second m,s values " "
+
+%--------------------------
+%see regular_tree file for more detailed comments on the tree construction
+%--------------------------
+
+    A = sparse(n_tot,n_tot);
+    s = s_1; m = m_1;
     
-    A = sparse(n,n);
-    
-    %start is a node on the current level and
-    %target is a node on the next level
-    %that we wish to connect to the start node
     start = 1;
     target = 2;
-    
-    %connect starting node to all nodes in the next level
+
     for i=1:s
         A(start,target) = 1;
         target = target + 1;
     end
     
-    %set start to first node in second level
     start = start + 1;
-    %target is already updated to the first node in third level
     
     %number of nodes in the current level
     curr_level_size = s;
@@ -31,17 +32,15 @@ function A = regular_tree(n,m,s)
     %no iterations before the next split (updates at every level)
     iter_b4_split = power_m - 1;
     
-    while (target < n) %don't want to go over size limit
+    while (target < n_tot)
         
+        while(target < n_change)
+            
         if (iter_b4_split == 0) %split
             
-            %this code connects each node in the current level
-            %-----this corresponds to curr_level_size
-            %to its children in the next level
-            %-----each parent node connects to s children
             for i=1:curr_level_size 
                 for j=1:s
-                    if (target > n) %don't want to go over size limit
+                    if (target > n_tot) %don't want to go over size limit
                         break;
                     end
                     A(start,target) = 1;
@@ -58,11 +57,10 @@ function A = regular_tree(n,m,s)
         else %if not splitting
             
             for i=1:curr_level_size 
-                if (target > n) %don't want to go over size limit
+                if (target > n_tot) %don't want to go over size limit
                     break;
                 end
                 
-                %connect start node to only 1 node in next level
                 A(start,target) = 1;
                 start = start + 1;
                 target = target + 1;
@@ -73,13 +71,16 @@ function A = regular_tree(n,m,s)
             iter_b4_split = iter_b4_split - 1;
             
         end
+        end
+        
+        %if target is > n_change, we change dimension
+        s = s_2;
+        m = m_2;
+        %need to change this value in order to go back into while loop
+        n_change = n_tot;
         
     end
-    
-    %current matrix is an upper triangular, and we wish to obtain
-    %the full symmetric matrix:
     A = A + A';
     g = graph(A);
     plot(g);
-    
 end
